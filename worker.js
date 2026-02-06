@@ -685,6 +685,24 @@ function updateBlurPosition(event){
       layer.style.transform = 'translate(' + offsetX + 'px, ' + offsetY + 'px)'
     })
     blurAnimationFrame = null
+      layer.style.transform = [
+        'translate(',
+        blurTarget.x * speed,
+        'px, ',
+        blurTarget.y * speed,
+        'px)'
+      ].join('')
+    })
+    blurAnimationFrame = null
+      layer.style.transform = 'translate(' + (blurTarget.x * speed) + 'px, ' + (blurTarget.y * speed) + 'px)'
+    })
+    blurAnimationFrame = null
+  const x = (event.clientX / bounds.width) * 2 - 1
+  const y = (event.clientY / bounds.height) * 2 - 1
+  blurLayers.forEach(layer=>{
+    const speed = Number(layer.dataset.speed || 10)
+    layer.style.transform = 'translate(' + (x * speed) + 'px, ' + (y * speed) + 'px)'
+    layer.style.transform = `translate(${x * speed}px, ${y * speed}px)`
   })
 }
 
