@@ -1,7 +1,6 @@
 export default {
   async fetch() {
-    return new Response(
-`<!DOCTYPE html>
+    const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -669,10 +668,21 @@ document.addEventListener('click',(event)=>{
 // ---------- COLOR BLUR INTERACTION ----------
 const colorBlur = document.getElementById('colorBlur')
 const blurLayers = colorBlur ? Array.from(colorBlur.querySelectorAll('span')) : []
+let blurAnimationFrame = null
+const blurTarget = { x: 0, y: 0 }
 
 function updateBlurPosition(event){
   if(!colorBlur) return
   const bounds = document.body.getBoundingClientRect()
+  blurTarget.x = (event.clientX / bounds.width) * 2 - 1
+  blurTarget.y = (event.clientY / bounds.height) * 2 - 1
+  if(blurAnimationFrame) return
+  blurAnimationFrame = requestAnimationFrame(() => {
+    blurLayers.forEach(layer=>{
+      const speed = Number(layer.dataset.speed || 10)
+      layer.style.transform = 'translate(' + (blurTarget.x * speed) + 'px, ' + (blurTarget.y * speed) + 'px)'
+    })
+    blurAnimationFrame = null
   const x = (event.clientX / bounds.width) * 2 - 1
   const y = (event.clientY / bounds.height) * 2 - 1
   blurLayers.forEach(layer=>{
@@ -692,8 +702,9 @@ document.addEventListener('mouseleave', resetBlurPosition)
 </script>
 
 </body>
-</html>`,
-{ headers: { "content-type": "text/html;charset=UTF-8" } }
-);
+</html>`
+    return new Response(html, {
+      headers: new Headers({ "content-type": "text/html;charset=UTF-8" })
+    });
   }
 };
