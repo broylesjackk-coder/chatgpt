@@ -437,10 +437,13 @@ async function updateHeader(){
   headerActions.appendChild(browseBtn)
 
   if(session){
+    const accountWrapper=document.createElement('div')
+    accountWrapper.style.position='relative'
+    accountWrapper.style.display='flex'
+
     const nameBtn=document.createElement('button')
     nameBtn.className='login-btn'
     nameBtn.textContent=session.user.user_metadata.full_name||'User'
-    nameBtn.style.position='relative'
 
     const dropdown=document.createElement('div')
     dropdown.style.position='absolute'
@@ -475,7 +478,8 @@ async function updateHeader(){
 
     dropdown.appendChild(dashOption)
     dropdown.appendChild(logoutOption)
-    nameBtn.appendChild(dropdown)
+    accountWrapper.appendChild(nameBtn)
+    accountWrapper.appendChild(dropdown)
 
     nameBtn.onclick=(e)=>{
       e.stopPropagation()
@@ -485,7 +489,8 @@ async function updateHeader(){
       activeDropdownToggle=shouldShow?nameBtn:null
     }
 
-    headerActions.appendChild(nameBtn)
+    dropdown.addEventListener('click',(event)=>event.stopPropagation())
+    headerActions.appendChild(accountWrapper)
   } else {
     const loginBtn=document.createElement('button')
     loginBtn.className='login-btn'
