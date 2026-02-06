@@ -37,64 +37,46 @@ body {
   inset: -20% -10%;
   z-index: 0;
   pointer-events: none;
-  filter: blur(90px) saturate(140%);
-  opacity: 0.9;
+
   transition: transform 0.6s ease;
 }
 .color-blur span {
   position: absolute;
-  border-radius: 45% 55% 60% 40%;
-  mix-blend-mode: screen;
-  opacity: 0.8;
-  transition: transform 0.8s ease;
-  animation: blobFloat 18s ease-in-out infinite;
-  will-change: transform;
+
 }
 .color-blur span:nth-child(1) {
   width: 45vw;
   height: 45vw;
   top: 5%;
   left: -5%;
-  background: radial-gradient(circle at 30% 30%, #FFD700, rgba(255,215,0,0.2) 60%, transparent 70%);
-  animation-duration: 22s;
+
 }
 .color-blur span:nth-child(2) {
   width: 35vw;
   height: 35vw;
   top: 20%;
   right: -10%;
-  background: radial-gradient(circle at 40% 40%, #2ECDA7, rgba(46,205,167,0.2) 60%, transparent 70%);
-  animation-duration: 26s;
+
 }
 .color-blur span:nth-child(3) {
   width: 30vw;
   height: 30vw;
   bottom: -5%;
   left: 10%;
-  background: radial-gradient(circle at 35% 35%, #EB563A, rgba(235,86,58,0.2) 60%, transparent 70%);
-  animation-duration: 20s;
-}
+
 .color-blur span:nth-child(4) {
   width: 25vw;
   height: 25vw;
   bottom: 10%;
   right: 20%;
-  background: radial-gradient(circle at 45% 45%, #600473, rgba(96,4,115,0.2) 60%, transparent 70%);
-  animation-duration: 28s;
+
 }
 .color-blur span:nth-child(5) {
   width: 20vw;
   height: 20vw;
   top: 45%;
   left: 40%;
-  background: radial-gradient(circle at 50% 50%, #55584C, rgba(85,88,76,0.2) 60%, transparent 70%);
-  animation-duration: 24s;
-}
-@keyframes blobFloat {
-  0% { transform: translate(0, 0) scale(1); border-radius: 45% 55% 60% 40%; }
-  33% { transform: translate(20px, -30px) scale(1.1); border-radius: 55% 45% 50% 50%; }
-  66% { transform: translate(-25px, 20px) scale(0.95); border-radius: 40% 60% 55% 45%; }
-  100% { transform: translate(0, 0) scale(1); border-radius: 45% 55% 60% 40%; }
+
 }
 
 /* ---------- HEADER ---------- */
@@ -694,7 +676,7 @@ function updateBlurPosition(event){
   const y = (event.clientY / bounds.height) * 2 - 1
   blurLayers.forEach(layer=>{
     const speed = Number(layer.dataset.speed || 10)
-    layer.style.transform = 'translate(' + (x * speed) + 'px, ' + (y * speed) + 'px)'
+
   })
 }
 
