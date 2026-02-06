@@ -379,6 +379,8 @@ const closeDashboardBtn=document.getElementById('closeDashboardBtn')
 const dashboardContent=document.getElementById('dashboardContent')
 const authContinueBtn=document.getElementById('authContinueBtn')
 const closeCoursesBtn=document.getElementById('closeCoursesBtn')
+let activeDropdown=null
+let activeDropdownToggle=null
 
 // ---------- COURSES DATA ----------
 const courses=[
@@ -425,6 +427,8 @@ async function logout(){ await supabase.auth.signOut(); updateHeader() }
 async function updateHeader(){
   const { data: { session } } = await supabase.auth.getSession()
   headerActions.innerHTML=''
+  activeDropdown=null
+  activeDropdownToggle=null
 
   const browseBtn=document.createElement('button')
   browseBtn.className='purchase-top'
@@ -473,8 +477,13 @@ async function updateHeader(){
     dropdown.appendChild(logoutOption)
     nameBtn.appendChild(dropdown)
 
-    nameBtn.onclick=(e)=>{ e.stopPropagation(); dropdown.style.display=dropdown.style.display==='flex'?'none':'flex' }
-    document.addEventListener('click',()=>{ dropdown.style.display='none' })
+    nameBtn.onclick=(e)=>{
+      e.stopPropagation()
+      const shouldShow=dropdown.style.display!=='flex'
+      dropdown.style.display=shouldShow?'flex':'none'
+      activeDropdown=shouldShow?dropdown:null
+      activeDropdownToggle=shouldShow?nameBtn:null
+    }
 
     headerActions.appendChild(nameBtn)
   } else {
@@ -570,6 +579,18 @@ window.addEventListener('load',()=>{
   createParticles(60)
 })
 window.addEventListener('scroll',animateSections)
+document.addEventListener('click',(event)=>{
+  if(activeDropdown){
+    const clickedInsideDropdown=activeDropdown.contains(event.target)
+    const clickedToggle=activeDropdownToggle?.contains(event.target)
+    if(clickedInsideDropdown||clickedToggle){
+      return
+    }
+    activeDropdown.style.display='none'
+    activeDropdown=null
+    activeDropdownToggle=null
+  }
+})
 
 </script>
 
