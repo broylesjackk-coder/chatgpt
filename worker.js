@@ -343,6 +343,7 @@ button:active, .variant:active {
 .course-card h3 { font-size: 1.5rem; margin-bottom: 8px; }
 .course-card p { color: #ccc; margin-bottom: 12px; }
 </style>
+</head>
 
 <body>
 
