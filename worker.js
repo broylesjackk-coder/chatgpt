@@ -30,6 +30,59 @@ body {
 }
 @keyframes pageFade { to { opacity: 1; } }
 
+/* ---------- COLOR BLUR BACKDROP ---------- */
+.color-blur {
+  position: fixed;
+  inset: -20% -10%;
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.8;
+  transition: transform 0.6s ease;
+}
+.color-blur span {
+  position: absolute;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  opacity: 0.75;
+  transition: transform 0.8s ease;
+}
+.color-blur span:nth-child(1) {
+  width: 45vw;
+  height: 45vw;
+  top: 5%;
+  left: -5%;
+  background: #FFD700;
+}
+.color-blur span:nth-child(2) {
+  width: 35vw;
+  height: 35vw;
+  top: 20%;
+  right: -10%;
+  background: #2ECDA7;
+}
+.color-blur span:nth-child(3) {
+  width: 30vw;
+  height: 30vw;
+  bottom: -5%;
+  left: 10%;
+  background: #EB563A;
+}
+.color-blur span:nth-child(4) {
+  width: 25vw;
+  height: 25vw;
+  bottom: 10%;
+  right: 20%;
+  background: #600473;
+}
+.color-blur span:nth-child(5) {
+  width: 20vw;
+  height: 20vw;
+  top: 45%;
+  left: 40%;
+  background: #55584C;
+}
+
 /* ---------- HEADER ---------- */
 .header {
   position: fixed;
@@ -286,6 +339,14 @@ button:active, .variant:active {
 </style>
 
 <body>
+
+<div class="color-blur" id="colorBlur">
+  <span data-speed="24"></span>
+  <span data-speed="18"></span>
+  <span data-speed="22"></span>
+  <span data-speed="16"></span>
+  <span data-speed="12"></span>
+</div>
 
 <div class="header">
   <div class="brand">promotez<span>Works</span></div>
@@ -596,6 +657,28 @@ document.addEventListener('click',(event)=>{
     activeDropdownToggle=null
   }
 })
+
+// ---------- COLOR BLUR INTERACTION ----------
+const colorBlur = document.getElementById('colorBlur')
+const blurLayers = colorBlur ? Array.from(colorBlur.querySelectorAll('span')) : []
+
+function updateBlurPosition(event){
+  if(!colorBlur) return
+  const bounds = document.body.getBoundingClientRect()
+  const x = (event.clientX / bounds.width) * 2 - 1
+  const y = (event.clientY / bounds.height) * 2 - 1
+  blurLayers.forEach(layer=>{
+    const speed = Number(layer.dataset.speed || 10)
+    layer.style.transform = 'translate(' + (x * speed) + 'px, ' + (y * speed) + 'px)'
+  })
+}
+
+function resetBlurPosition(){
+  blurLayers.forEach(layer=>{ layer.style.transform = 'translate(0, 0)' })
+}
+
+document.addEventListener('mousemove', updateBlurPosition)
+document.addEventListener('mouseleave', resetBlurPosition)
 
 </script>
 
