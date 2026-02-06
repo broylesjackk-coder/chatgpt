@@ -680,6 +680,15 @@ function updateBlurPosition(event){
   blurAnimationFrame = requestAnimationFrame(() => {
     blurLayers.forEach(layer=>{
       const speed = Number(layer.dataset.speed || 10)
+      layer.style.transform = [
+        'translate(',
+        blurTarget.x * speed,
+        'px, ',
+        blurTarget.y * speed,
+        'px)'
+      ].join('')
+    })
+    blurAnimationFrame = null
       layer.style.transform = 'translate(' + (blurTarget.x * speed) + 'px, ' + (blurTarget.y * speed) + 'px)'
     })
     blurAnimationFrame = null
