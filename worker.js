@@ -483,7 +483,7 @@ async function loadDashboardContent(){
   purchases.forEach(p=>{
     const card=document.createElement('div')
     card.className='course-card'
-    card.innerHTML=\`<h3>\${p.course_name}</h3><p>Price: \${p.price}</p>\`
+    card.innerHTML='<h3>' + p.course_name + '</h3><p>Price: ' + p.price + '</p>'
     dashboardContent.appendChild(card)
   })
 }
@@ -636,10 +636,10 @@ function animateDashboardCards(){
   cards.forEach((card,i)=>setTimeout(()=>card.classList.add('visible'), i*150))
 }
 const style = document.createElement('style')
-style.innerHTML = \`
-.course-card { opacity:0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
-.course-card.visible { opacity:1; transform: translateY(0); }
-\`
+style.innerHTML = [
+  '.course-card { opacity:0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }',
+  '.course-card.visible { opacity:1; transform: translateY(0); }'
+].join('\n')
 document.head.appendChild(style)
 dashboardModal.addEventListener('transitionend', ()=>{
   if(dashboardModal.classList.contains('show')) animateDashboardCards()
