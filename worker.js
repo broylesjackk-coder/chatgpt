@@ -64,7 +64,6 @@ body {
   bottom: -5%;
   left: 10%;
 
-}
 .color-blur span:nth-child(4) {
   width: 25vw;
   height: 25vw;
@@ -292,6 +291,15 @@ button:active, .variant:active {
   background: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 40px 40px;
   animation: moveBG 60s linear infinite;
+  pointer-events:none;
+}
+.section::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: radial-gradient(circle at 20% 0%, rgba(255,255,255,0.08), transparent 55%);
+  mix-blend-mode: screen;
+  opacity: 0.6;
   pointer-events:none;
 }
 @keyframes moveBG { from { background-position:0 0 } to { background-position:200px 200px } }
