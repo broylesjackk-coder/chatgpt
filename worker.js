@@ -42,7 +42,8 @@ body {
 }
 .color-blur span {
   position: absolute;
-
+  background: radial-gradient(circle, rgba(255,61,0,0.45), transparent 60%);
+  filter: blur(40px);
 }
 .color-blur span:nth-child(1) {
   width: 45vw;
@@ -63,7 +64,7 @@ body {
   height: 30vw;
   bottom: -5%;
   left: 10%;
-
+}
 .color-blur span:nth-child(4) {
   width: 25vw;
   height: 25vw;
@@ -482,7 +483,7 @@ async function loadDashboardContent(){
   purchases.forEach(p=>{
     const card=document.createElement('div')
     card.className='course-card'
-    card.innerHTML=\`<h3>\${p.course_name}</h3><p>Price: \${p.price}</p>\`
+    card.innerHTML='<h3>' + p.course_name + '</h3><p>Price: ' + p.price + '</p>'
     dashboardContent.appendChild(card)
   })
 }
@@ -635,10 +636,10 @@ function animateDashboardCards(){
   cards.forEach((card,i)=>setTimeout(()=>card.classList.add('visible'), i*150))
 }
 const style = document.createElement('style')
-style.innerHTML = \`
-.course-card { opacity:0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
-.course-card.visible { opacity:1; transform: translateY(0); }
-\`
+style.innerHTML = [
+  '.course-card { opacity:0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }',
+  '.course-card.visible { opacity:1; transform: translateY(0); }'
+].join('\n')
 document.head.appendChild(style)
 dashboardModal.addEventListener('transitionend', ()=>{
   if(dashboardModal.classList.contains('show')) animateDashboardCards()
@@ -676,7 +677,7 @@ function updateBlurPosition(event){
   const y = (event.clientY / bounds.height) * 2 - 1
   blurLayers.forEach(layer=>{
     const speed = Number(layer.dataset.speed || 10)
-
+    layer.style.transform = 'translate(' + (x * speed) + 'px, ' + (y * speed) + 'px)'
   })
 }
 
