@@ -7,6 +7,7 @@ export default {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>promotezWorks</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='10' fill='%23ff3d00'/%3E%3C/svg%3E">
 
 <style>
 :root {
@@ -29,6 +30,72 @@ body {
   z-index: 1;
 }
 @keyframes pageFade { to { opacity: 1; } }
+
+/* ---------- COLOR BLUR BACKDROP ---------- */
+.color-blur {
+  position: fixed;
+  inset: -20% -10%;
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(90px) saturate(140%);
+  opacity: 0.9;
+  transition: transform 0.6s ease;
+}
+.color-blur span {
+  position: absolute;
+  border-radius: 45% 55% 60% 40%;
+  mix-blend-mode: screen;
+  opacity: 0.8;
+  transition: transform 0.8s ease;
+  animation: blobFloat 18s ease-in-out infinite;
+  will-change: transform;
+}
+.color-blur span:nth-child(1) {
+  width: 45vw;
+  height: 45vw;
+  top: 5%;
+  left: -5%;
+  background: radial-gradient(circle at 30% 30%, #FFD700, rgba(255,215,0,0.2) 60%, transparent 70%);
+  animation-duration: 22s;
+}
+.color-blur span:nth-child(2) {
+  width: 35vw;
+  height: 35vw;
+  top: 20%;
+  right: -10%;
+  background: radial-gradient(circle at 40% 40%, #2ECDA7, rgba(46,205,167,0.2) 60%, transparent 70%);
+  animation-duration: 26s;
+}
+.color-blur span:nth-child(3) {
+  width: 30vw;
+  height: 30vw;
+  bottom: -5%;
+  left: 10%;
+  background: radial-gradient(circle at 35% 35%, #EB563A, rgba(235,86,58,0.2) 60%, transparent 70%);
+  animation-duration: 20s;
+}
+.color-blur span:nth-child(4) {
+  width: 25vw;
+  height: 25vw;
+  bottom: 10%;
+  right: 20%;
+  background: radial-gradient(circle at 45% 45%, #600473, rgba(96,4,115,0.2) 60%, transparent 70%);
+  animation-duration: 28s;
+}
+.color-blur span:nth-child(5) {
+  width: 20vw;
+  height: 20vw;
+  top: 45%;
+  left: 40%;
+  background: radial-gradient(circle at 50% 50%, #55584C, rgba(85,88,76,0.2) 60%, transparent 70%);
+  animation-duration: 24s;
+}
+@keyframes blobFloat {
+  0% { transform: translate(0, 0) scale(1); border-radius: 45% 55% 60% 40%; }
+  33% { transform: translate(20px, -30px) scale(1.1); border-radius: 55% 45% 50% 50%; }
+  66% { transform: translate(-25px, 20px) scale(0.95); border-radius: 40% 60% 55% 45%; }
+  100% { transform: translate(0, 0) scale(1); border-radius: 45% 55% 60% 40%; }
+}
 
 /* ---------- HEADER ---------- */
 .header {
@@ -229,9 +296,10 @@ button:active, .variant:active {
   transform: translateY(30px);
   text-align: center;
   padding: 80px 15%;
-  background: radial-gradient(circle at top, #111111, #050505);
+  background: radial-gradient(circle at top, rgba(17,17,17,0.9), rgba(5,5,5,0.9));
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(12px);
   transition: opacity 1.2s ease, transform 1.2s ease;
 }
 .section::before {
@@ -241,6 +309,15 @@ button:active, .variant:active {
   background: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 40px 40px;
   animation: moveBG 60s linear infinite;
+  pointer-events:none;
+}
+.section::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: radial-gradient(circle at 20% 0%, rgba(255,255,255,0.08), transparent 55%);
+  mix-blend-mode: screen;
+  opacity: 0.6;
   pointer-events:none;
 }
 @keyframes moveBG { from { background-position:0 0 } to { background-position:200px 200px } }
@@ -284,8 +361,17 @@ button:active, .variant:active {
 .course-card h3 { font-size: 1.5rem; margin-bottom: 8px; }
 .course-card p { color: #ccc; margin-bottom: 12px; }
 </style>
+</head>
 
 <body>
+
+<div class="color-blur" id="colorBlur">
+  <span data-speed="24"></span>
+  <span data-speed="18"></span>
+  <span data-speed="22"></span>
+  <span data-speed="16"></span>
+  <span data-speed="12"></span>
+</div>
 
 <div class="header">
   <div class="brand">promotez<span>Works</span></div>
@@ -596,6 +682,28 @@ document.addEventListener('click',(event)=>{
     activeDropdownToggle=null
   }
 })
+
+// ---------- COLOR BLUR INTERACTION ----------
+const colorBlur = document.getElementById('colorBlur')
+const blurLayers = colorBlur ? Array.from(colorBlur.querySelectorAll('span')) : []
+
+function updateBlurPosition(event){
+  if(!colorBlur) return
+  const bounds = document.body.getBoundingClientRect()
+  const x = (event.clientX / bounds.width) * 2 - 1
+  const y = (event.clientY / bounds.height) * 2 - 1
+  blurLayers.forEach(layer=>{
+    const speed = Number(layer.dataset.speed || 10)
+    layer.style.transform = 'translate(' + (x * speed) + 'px, ' + (y * speed) + 'px)'
+  })
+}
+
+function resetBlurPosition(){
+  blurLayers.forEach(layer=>{ layer.style.transform = 'translate(0, 0)' })
+}
+
+document.addEventListener('mousemove', updateBlurPosition)
+document.addEventListener('mouseleave', resetBlurPosition)
 
 </script>
 
