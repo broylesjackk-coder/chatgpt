@@ -7,6 +7,7 @@ export default {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>promotezWorks</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='10' fill='%23ff3d00'/%3E%3C/svg%3E">
 
 <style>
 :root {
@@ -36,51 +37,47 @@ body {
   inset: -20% -10%;
   z-index: 0;
   pointer-events: none;
-  filter: blur(80px);
-  opacity: 0.8;
+
   transition: transform 0.6s ease;
 }
 .color-blur span {
   position: absolute;
-  border-radius: 50%;
-  mix-blend-mode: screen;
-  opacity: 0.75;
-  transition: transform 0.8s ease;
+
 }
 .color-blur span:nth-child(1) {
   width: 45vw;
   height: 45vw;
   top: 5%;
   left: -5%;
-  background: #FFD700;
+
 }
 .color-blur span:nth-child(2) {
   width: 35vw;
   height: 35vw;
   top: 20%;
   right: -10%;
-  background: #2ECDA7;
+
 }
 .color-blur span:nth-child(3) {
   width: 30vw;
   height: 30vw;
   bottom: -5%;
   left: 10%;
-  background: #EB563A;
+
 }
 .color-blur span:nth-child(4) {
   width: 25vw;
   height: 25vw;
   bottom: 10%;
   right: 20%;
-  background: #600473;
+
 }
 .color-blur span:nth-child(5) {
   width: 20vw;
   height: 20vw;
   top: 45%;
   left: 40%;
-  background: #55584C;
+
 }
 
 /* ---------- HEADER ---------- */
@@ -282,9 +279,10 @@ button:active, .variant:active {
   transform: translateY(30px);
   text-align: center;
   padding: 80px 15%;
-  background: radial-gradient(circle at top, #111111, #050505);
+  background: radial-gradient(circle at top, rgba(17,17,17,0.9), rgba(5,5,5,0.9));
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(12px);
   transition: opacity 1.2s ease, transform 1.2s ease;
 }
 .section::before {
